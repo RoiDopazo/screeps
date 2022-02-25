@@ -1,10 +1,13 @@
 import QUpgrader from "creeps/Upgrader";
 import { QRoles } from "../types/types";
 import QHarvester from "../creeps/Harvester";
+import QCreep from "../creeps/Creep";
+import QBuilder from "../creeps/Builder";
+import { cronTask } from "../utils/helpers";
 
 class QCreepController {
   room: string;
-  upgraders: QUpgrader[] = [];
+  creeps: QUpgrader[] = [];
   role: QRoles;
 
   constructor({ room, role }: { room: string; role: QRoles }) {
@@ -13,7 +16,7 @@ class QCreepController {
 
     for (const i in Game.creeps) {
       if (Game.creeps[i].memory.role === role) {
-        this.upgraders.push(
+        this.creeps.push(
           this.newCreepInstance({
             id: Game.creeps[i].name,
             room: this.room
@@ -26,28 +29,44 @@ class QCreepController {
   newCreepInstance({ id, room }: { id?: string; room: string }) {
     if (this.role === QRoles.HARVESTER) return new QHarvester({ id, room });
     if (this.role === QRoles.UPGRADER) return new QUpgrader({ id, room });
+    if (this.role === QRoles.BUILDER) return new QBuilder({ id, room });
 
     throw new Error("Invalid role");
   }
 
   generateCreeps() {
-    const numCreeps = this.upgraders.length;
+    const numCreeps = this.creeps.length;
     const targetNumCreeps = Memory.spawns[this.room].config.population.target[this.role];
 
-    if (numCreeps !== targetNumCreeps) {
-      const upgraderCreep = this.newCreepInstance({
+    if (targetNumCreeps !== undefined && numCreeps !== targetNumCreeps) {
+      const creep = this.newCreepInstance({
         room: this.room
       });
-      this.upgraders.push(upgraderCreep);
+      this.creeps.push(creep);
     }
   }
 
   work() {
-    this.upgraders.forEach(upgraderCreep => {
-      if (!Game.creeps[upgraderCreep.id]) {
-        upgraderCreep.spawn();
+    this.creeps.forEach(creep => {
+      if (!Game.creeps[creep.id]) {
+        cronTask(() => {
+          const energyCap = Game.spawns[this.room].room.energyCapacityAvailable;
+          const energyAva = Game.spawns[this.room].room.energyAvailable;
+
+          const maxLevel = Math.floor((energyCap - QCreep.initialBodyCost) / QCreep.levelUpCost + 1);
+          const targetLevel = maxLevel;
+          console.log("targetLevel: ", targetLevel);
+
+          console.log(creep.getLevel());
+          while (creep.getLevel() !== targetLevel) {
+            creep.levelUp();
+          }
+
+          creep.spawn();
+        }, 30);
+        return;
       }
-      upgraderCreep.work();
+      creep.work();
     });
   }
 }

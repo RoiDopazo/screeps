@@ -27,6 +27,7 @@ declare global {
     role: string;
     room: string;
     working: boolean;
+    building: boolean;
   }
 
   // Syntax for adding properties to `global` (ex "global.log")

@@ -3,7 +3,24 @@ import { QRoles } from "../types/types";
 
 class QHarvester extends QCreep {
   constructor({ id, room }: { id?: string; room: string }) {
-    super({ id: id ? id : "H:" + Game.time, room, role: QRoles.HARVESTER });
+    super({ id: id ? id : "H:" + Game.time, room, role: QRoles.HARVESTER, initMem: { working: false } });
+  }
+
+  levelUp() {
+    this.setLevel(this.level + 1);
+    this.setBodyParts({
+      ...this.bodyParts,
+      work: (this.bodyParts.work as number) + 1
+    });
+  }
+
+  levelDown() {
+    if (this.level === 1) return;
+    this.setLevel(this.level - 1);
+    this.setBodyParts({
+      ...this.bodyParts,
+      work: (this.bodyParts.work as number) - 1
+    });
   }
 
   work() {

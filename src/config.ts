@@ -7,7 +7,8 @@ Memory.spawns["S-001"] = {
       current: PopulationUtils.getInitialPop(),
       target: {
         [QRoles.HARVESTER]: 3,
-        [QRoles.UPGRADER]: 4
+        [QRoles.UPGRADER]: 4,
+        [QRoles.BUILDER]: 3
       }
     }
   }

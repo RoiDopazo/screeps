@@ -1,6 +1,13 @@
 export enum QRoles {
   HARVESTER = "HARVESTER",
-  UPGRADER = "UPGRADER"
+  UPGRADER = "UPGRADER",
+  BUILDER = "BUILDER"
 }
 
-export type QCreepLevel = Partial<Record<BodyPartConstant, number>>;
+export type QCreepBodyParts = Partial<Record<BodyPartConstant, number>>;
+
+export enum QBodyPartCost {
+  MOVE = 50,
+  WORK = 100,
+  CARRY = 50
+}

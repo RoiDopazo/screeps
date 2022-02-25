@@ -5,6 +5,7 @@ import { QRoles } from "./types/types";
 
 const UpgraderCtrl = new QCreepController({ room: "S-001", role: QRoles.UPGRADER });
 const HarvesterCtrl = new QCreepController({ room: "S-001", role: QRoles.HARVESTER });
+const BuilderCtrl = new QCreepController({ room: "S-001", role: QRoles.BUILDER });
 
 export const loop = ErrorMapper.wrapLoop(() => {
   HarvesterCtrl.generateCreeps();
@@ -12,6 +13,9 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
   UpgraderCtrl.generateCreeps();
   UpgraderCtrl.work();
+
+  BuilderCtrl.generateCreeps();
+  BuilderCtrl.work();
 
   // Automatically delete memory of missing creeps
   for (const name in Memory.creeps) {
