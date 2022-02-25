@@ -1,3 +1,4 @@
+import { QRoles } from "./types";
 declare global {
   /*
     Example types, expand on these or remove them and add your own.
@@ -13,6 +14,15 @@ declare global {
     log: any;
   }
 
+  interface SpawnMemory {
+    config: {
+      population: {
+        current: { [key in QRoles]: number };
+        target: { [key in QRoles]: number };
+      };
+    };
+  }
+
   interface CreepMemory {
     role: string;
     room: string;
@@ -26,6 +36,5 @@ declare global {
     }
   }
 }
-
 
 export default global;
