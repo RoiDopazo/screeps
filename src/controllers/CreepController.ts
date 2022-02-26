@@ -50,22 +50,24 @@ class QCreepController {
     this.creeps.forEach(creep => {
       if (!Game.creeps[creep.id]) {
         cronTask(() => {
-          if (creep.role !== QRoles.HARVESTER) return;
+          // const energyCap = Game.spawns[this.room].room.energyCapacityAvailable;
+          // const energyAva = Game.spawns[this.room].room.energyAvailable;
 
-          const energyCap = Game.spawns[this.room].room.energyCapacityAvailable;
-          const energyAva = Game.spawns[this.room].room.energyAvailable;
+          // const maxLevel = Math.floor((energyCap - QCreep.initialBodyCost) / QCreep.levelUpCost + 1);
+          // const targetLevel = maxLevel;
+          // console.log("targetLevel: ", targetLevel);
 
-          const maxLevel = Math.floor((energyCap - QCreep.initialBodyCost) / QCreep.levelUpCost + 1);
-          const targetLevel = maxLevel;
-          console.log("targetLevel: ", targetLevel);
+          // console.log(creep.getLevel());
+          // while (creep.getLevel() !== 4) {
+          //   creep.levelDown();
+          // }
 
-          console.log(creep.getLevel());
-          while (creep.getLevel() !== 4) {
-            creep.levelUp();
-          }
+          creep.setLevel(4);
+          creep.setBodyParts(QCreep.defaultBodyParts);
+          console.log(JSON.stringify(creep));
 
           creep.spawn();
-        }, 30);
+        }, 5);
         return;
       }
       creep.work();
