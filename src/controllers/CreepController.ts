@@ -50,6 +50,8 @@ class QCreepController {
     this.creeps.forEach(creep => {
       if (!Game.creeps[creep.id]) {
         cronTask(() => {
+          if (creep.role !== QRoles.HARVESTER) return;
+
           const energyCap = Game.spawns[this.room].room.energyCapacityAvailable;
           const energyAva = Game.spawns[this.room].room.energyAvailable;
 
@@ -58,7 +60,7 @@ class QCreepController {
           console.log("targetLevel: ", targetLevel);
 
           console.log(creep.getLevel());
-          while (creep.getLevel() !== targetLevel) {
+          while (creep.getLevel() !== 4) {
             creep.levelUp();
           }
 

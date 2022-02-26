@@ -26,7 +26,7 @@ class QHarvester extends QCreep {
   work() {
     var creep = Game.creeps[this.id];
 
-    if (!creep) return this.spawn();
+    if (!creep) return;
 
     if (creep.store.getFreeCapacity() > 0) {
       const sources: Source[] = creep.room.find(FIND_SOURCES);

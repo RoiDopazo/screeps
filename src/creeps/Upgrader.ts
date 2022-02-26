@@ -26,7 +26,7 @@ class QUpgrader extends QCreep {
   work() {
     const creep = Game.creeps[this.id];
 
-    if (!creep) return this.spawn();
+    if (!creep) return;
 
     if (!creep.memory.working && creep.store.getFreeCapacity(RESOURCE_ENERGY) > 0) {
       const sources = creep.room.find(FIND_SOURCES);
