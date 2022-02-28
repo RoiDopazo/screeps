@@ -1,10 +1,15 @@
 import { QRoles } from "types/types";
-import PopulationUtils from "utils/PopulationUtils";
 
-Memory.spawns["S-001"] = {
+export const room = "W48N55";
+export const spawn = "S-001";
+
+Memory.rooms = {};
+Memory.rooms[room] = {
   config: {
     population: {
-      current: PopulationUtils.getInitialPop(),
+      maxSpawningTries: 5,
+      spawningRetries: 0,
+      current: {} as any,
       target: {
         [QRoles.HARVESTER]: 3,
         [QRoles.UPGRADER]: 4,

@@ -1,4 +1,5 @@
-import { QRoles } from "./types";
+import { QRoles, CREEP_STATUS } from "./types";
+
 declare global {
   /*
     Example types, expand on these or remove them and add your own.
@@ -14,9 +15,11 @@ declare global {
     log: any;
   }
 
-  interface SpawnMemory {
+  interface RoomMemory {
     config: {
       population: {
+        maxSpawningTries: number;
+        spawningRetries: number;
         current: { [key in QRoles]: number };
         target: { [key in QRoles]: number };
       };
@@ -26,9 +29,8 @@ declare global {
   interface CreepMemory {
     role: string;
     room: string;
-    working: boolean;
-    building: boolean;
-    spawnTries: number;
+    status: CREEP_STATUS;
+    sourceId: Id<Source>;
   }
 
   // Syntax for adding properties to `global` (ex "global.log")

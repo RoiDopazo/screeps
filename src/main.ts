@@ -1,26 +1,28 @@
+import { CREEP_STATUS } from "types/types";
 import { ErrorMapper } from "utils/ErrorMapper";
-import QCreepController from "./controllers/CreepController";
 import "./config";
+import { room, spawn } from "./config";
+import population from "./core/population";
 import { QRoles } from "./types/types";
 
-const UpgraderCtrl = new QCreepController({ room: "S-001", role: QRoles.UPGRADER });
-const HarvesterCtrl = new QCreepController({ room: "S-001", role: QRoles.HARVESTER });
-const BuilderCtrl = new QCreepController({ room: "S-001", role: QRoles.BUILDER });
+// Object.values(Game.creeps).forEach(creep => {
+//   const sources = Game.rooms[room].find(FIND_SOURCES);
+
+//   if (creep.memory.role === QRoles.HARVESTER) {
+//     console.log(JSON.stringify(creep.memory));
+//     creep.memory.status = CREEP_STATUS.IDLE;
+//     creep.memory.sourceId = sources[0].id;
+//   }
+// });
 
 export const loop = ErrorMapper.wrapLoop(() => {
-  HarvesterCtrl.generateCreeps();
-  HarvesterCtrl.work();
-
-  UpgraderCtrl.generateCreeps();
-  UpgraderCtrl.work();
-
-  BuilderCtrl.generateCreeps();
-  BuilderCtrl.work();
-
   // Automatically delete memory of missing creeps
   for (const name in Memory.creeps) {
     if (!(name in Game.creeps)) {
       delete Memory.creeps[name];
     }
   }
+
+  population.keepUpdated({ room, spawn });
+  population.forceToWork();
 });

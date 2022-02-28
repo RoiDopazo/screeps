@@ -11,3 +11,21 @@ export enum QBodyPartCost {
   WORK = 100,
   CARRY = 50
 }
+
+export enum CREEP_STATUS {
+  IDLE = "IDLE",
+  ON_THE_WAY = "ON_THE_WAY",
+  WORKING = "WORKING",
+  HARVESTING = "HARVESTING",
+  TRANSFERRING = "TRANSFERRING",
+  UPGRADING = "UPGRADING"
+}
+
+export enum CREEP_ACTIONS {
+  HARVEST = "harvest",
+  TRANSFER = "transfer"
+}
+
+export enum SPAWN_ACTIONS {
+  SPAWN = "spawn"
+}
