@@ -6,23 +6,6 @@ class QBuilder extends QCreep {
     super({ id: id ? id : "B:" + Game.time, room, role: QRoles.BUILDER, initMem: { building: false } });
   }
 
-  levelUp() {
-    this.setLevel(this.level + 1);
-    this.setBodyParts({
-      ...this.bodyParts,
-      carry: (this.bodyParts.carry as number) + 1
-    });
-  }
-
-  levelDown() {
-    if (this.level === 1) return;
-    this.setLevel(this.level - 1);
-    this.setBodyParts({
-      ...this.bodyParts,
-      carry: (this.bodyParts.carry as number) - 1
-    });
-  }
-
   work() {
     const creep = Game.creeps[this.id];
 

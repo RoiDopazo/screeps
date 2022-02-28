@@ -6,23 +6,6 @@ class QUpgrader extends QCreep {
     super({ id: id ? id : "U:" + Game.time, room, role: QRoles.UPGRADER, initMem: { working: false } });
   }
 
-  levelUp() {
-    this.setLevel(this.level + 1);
-    this.setBodyParts({
-      ...this.bodyParts,
-      work: (this.bodyParts.work as number) + 1
-    });
-  }
-
-  levelDown() {
-    if (this.level === 1) return;
-    this.setLevel(this.level - 1);
-    this.setBodyParts({
-      ...this.bodyParts,
-      work: (this.bodyParts.work as number) - 1
-    });
-  }
-
   work() {
     const creep = Game.creeps[this.id];
 

@@ -25,5 +25,5 @@
   },
   "typescript.tsdk": "./node_modules/typescript/lib",
   "eslint.enable": true,
-  "cSpell.ignoreWords": ["upgraders"]
+  "cSpell.ignoreWords": ["respawn", "upgraders"]
 }

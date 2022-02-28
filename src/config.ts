@@ -8,7 +8,7 @@ Memory.spawns["S-001"] = {
       target: {
         [QRoles.HARVESTER]: 3,
         [QRoles.UPGRADER]: 4,
-        [QRoles.BUILDER]: 3
+        [QRoles.BUILDER]: 2
       }
     }
   }

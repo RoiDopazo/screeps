@@ -4,8 +4,8 @@ abstract class QCreep {
   id: string;
   room: string;
   role: string;
-  level: number;
-  bodyParts: QCreepBodyParts;
+  private _bodyParts: QCreepBodyParts;
+  private _spawningTries: number;
   initMem: any;
 
   static initialBodyCost = 200;
@@ -21,25 +21,31 @@ abstract class QCreep {
     this.id = id;
     this.room = room;
     this.role = role;
-    this.level = 1;
-    this.bodyParts = QCreep.defaultBodyParts;
+    this._bodyParts = QCreep.defaultBodyParts;
     this.initMem = initMem;
+    this._spawningTries = 0;
   }
 
-  setLevel(level: number) {
-    this.level = level;
+  set bodyParts(bodyParts: QCreepBodyParts) {
+    this._bodyParts = bodyParts;
   }
 
-  setBodyParts(bodyParts: QCreepBodyParts) {
-    this.bodyParts = bodyParts;
+  get bodyParts() {
+    return this._bodyParts;
   }
 
-  getUpgradeBaseCost() {
-    throw new Error("Not implemented");
+  abstract work(): void;
+
+  get creep(): Creep {
+    return Game.creeps[this.id];
   }
 
-  getLevel() {
-    return this.level;
+  get spawningTries() {
+    return this._spawningTries;
+  }
+
+  set spawningTries(spawningTries: number) {
+    this._spawningTries = spawningTries;
   }
 
   spawn() {
@@ -55,7 +61,7 @@ abstract class QCreep {
 
     if (returnCode === OK) {
       Game.spawns[this.room].room.visual.text(
-        "🛠️" + this.role + "| level " + this.level,
+        "🛠️" + this.role,
         Game.spawns[this.room].pos.x + 1,
         Game.spawns[this.room].pos.y + 1,
         { align: "left", opacity: 0.8 }

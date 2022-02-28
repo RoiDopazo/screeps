@@ -4,6 +4,9 @@ import QHarvester from "../creeps/Harvester";
 import QCreep from "../creeps/Creep";
 import QBuilder from "../creeps/Builder";
 import { cronTask } from "../utils/helpers";
+import levels from "../config/levels";
+
+const numSpawnRetries = 5;
 
 class QCreepController {
   room: string;
@@ -46,29 +49,43 @@ class QCreepController {
     }
   }
 
+  respawnCreep(creep: QCreep) {
+    cronTask(() => {
+      const energyCap = Game.spawns[this.room].room.energyCapacityAvailable;
+      console.log("energyCap: ", energyCap);
+      const energyAva = Game.spawns[this.room].room.energyAvailable;
+      console.log("energyAva: ", energyAva);
+
+      const allowedLevels = Object.keys(levels)
+        .map(level => parseInt(level, 10))
+        .filter(level => level < energyCap);
+
+      const allowedLevelsMaxItems = allowedLevels.length - Math.floor(creep.spawningTries / numSpawnRetries);
+
+      const maxLevel =
+        allowedLevelsMaxItems <= allowedLevels.length
+          ? Math.max(...allowedLevels.slice(0, allowedLevelsMaxItems))
+          : allowedLevels[0];
+      console.log("maxLevel: ", maxLevel);
+
+      console.log("energyAva: ", energyAva, "maxLevel ", maxLevel);
+
+      if (energyAva < maxLevel) {
+        creep.spawningTries += 1;
+        console.log("Next try: ", creep.spawningTries);
+      } else {
+        creep.bodyParts = levels[maxLevel];
+        creep.spawningTries = 0;
+        creep.spawn();
+      }
+    }, 40);
+    return;
+  }
+
   work() {
     this.creeps.forEach(creep => {
       if (!Game.creeps[creep.id]) {
-        cronTask(() => {
-          // const energyCap = Game.spawns[this.room].room.energyCapacityAvailable;
-          // const energyAva = Game.spawns[this.room].room.energyAvailable;
-
-          // const maxLevel = Math.floor((energyCap - QCreep.initialBodyCost) / QCreep.levelUpCost + 1);
-          // const targetLevel = maxLevel;
-          // console.log("targetLevel: ", targetLevel);
-
-          // console.log(creep.getLevel());
-          // while (creep.getLevel() !== 4) {
-          //   creep.levelDown();
-          // }
-
-          creep.setLevel(4);
-          creep.setBodyParts(QCreep.defaultBodyParts);
-          console.log(JSON.stringify(creep));
-
-          creep.spawn();
-        }, 5);
-        return;
+        this.respawnCreep(creep);
       }
       creep.work();
     });

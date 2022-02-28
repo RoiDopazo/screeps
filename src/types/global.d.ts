@@ -28,6 +28,7 @@ declare global {
     room: string;
     working: boolean;
     building: boolean;
+    spawnTries: number;
   }
 
   // Syntax for adding properties to `global` (ex "global.log")
