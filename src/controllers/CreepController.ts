@@ -58,9 +58,11 @@ class QCreepController {
 
       const allowedLevels = Object.keys(levels)
         .map(level => parseInt(level, 10))
-        .filter(level => level < energyCap);
+        .filter(level => level <= energyCap);
 
       const allowedLevelsMaxItems = allowedLevels.length - Math.floor(creep.spawningTries / numSpawnRetries);
+      console.log("creep.spawningTries: ", creep.spawningTries);
+      console.log("allowedLevelsMaxItems: ", allowedLevelsMaxItems);
 
       const maxLevel =
         allowedLevelsMaxItems <= allowedLevels.length
@@ -72,7 +74,6 @@ class QCreepController {
 
       if (energyAva < maxLevel) {
         creep.spawningTries += 1;
-        console.log("Next try: ", creep.spawningTries);
       } else {
         creep.bodyParts = levels[maxLevel];
         creep.spawningTries = 0;

@@ -26,7 +26,7 @@ class QHarvester extends QCreep {
       const extensions = creep.room.find(FIND_STRUCTURES, {
         filter: structure => {
           return (
-            (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN) &&
+            (structure.structureType === STRUCTURE_EXTENSION || structure.structureType === STRUCTURE_SPAWN) &&
             structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0
           );
         }
@@ -36,7 +36,19 @@ class QHarvester extends QCreep {
           creep.moveTo(extensions[0]);
         }
       } else {
-        creep.moveTo(Game.spawns[this.room]);
+        const towers = creep.room.find(FIND_STRUCTURES, {
+          filter: structure => {
+            return structure.structureType == STRUCTURE_TOWER && structure.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
+          }
+        });
+
+        if (towers.length > 0) {
+          if (creep.transfer(towers[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(towers[0]);
+          }
+        } else {
+          creep.moveTo(Game.spawns[this.room]);
+        }
       }
     }
   }
