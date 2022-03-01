@@ -23,7 +23,8 @@ export enum CREEP_STATUS {
 
 export enum CREEP_ACTIONS {
   HARVEST = "harvest",
-  TRANSFER = "transfer"
+  TRANSFER = "transfer",
+  UPGRADE_CONTROLLER = "upgradeController"
 }
 
 export enum SPAWN_ACTIONS {

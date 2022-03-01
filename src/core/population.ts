@@ -1,8 +1,9 @@
 import levels from "config/levels";
 import { QRoles } from "types/types";
 import { cronTask } from "utils/helpers";
-import { spawnActions } from "./actions";
-import harvester from "../roles/harvester";
+import spawnActions from "core/actions/spawnActions";
+import harvester from "roles/harvester";
+import upgrader from "roles/upgrader";
 
 const population = {
   getCurrentPop: (): Record<QRoles, number> => {
@@ -65,7 +66,7 @@ const population = {
         return harvester.run({ creep });
       }
       if (creep.memory.role === QRoles.UPGRADER) {
-        // return harvester.run({ creep });
+        return upgrader.run({ creep });
       }
       if (creep.memory.role === QRoles.BUILDER) {
         // return harvester.run({ creep });
