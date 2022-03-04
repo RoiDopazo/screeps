@@ -12,8 +12,8 @@ Memory.rooms[room] = {
       current: {} as any,
       target: {
         [QRoles.HARVESTER]: 3,
-        [QRoles.UPGRADER]: 4,
-        [QRoles.BUILDER]: 2
+        [QRoles.UPGRADER]: 3,
+        [QRoles.BUILDER]: 0
       }
     }
   }

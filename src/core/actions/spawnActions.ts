@@ -26,7 +26,7 @@ const spawnActions: Record<SPAWN_ACTIONS, any> = {
         room: room,
         role: role,
         status: CREEP_STATUS.IDLE,
-        sourceId: role === QRoles.UPGRADER ? sources[1].id : sources[0].id
+        sourceId: role === QRoles.HARVESTER ? sources[0].id : sources[1].id
       }
     });
 

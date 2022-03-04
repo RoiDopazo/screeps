@@ -18,13 +18,15 @@ export enum CREEP_STATUS {
   WORKING = "WORKING",
   HARVESTING = "HARVESTING",
   TRANSFERRING = "TRANSFERRING",
-  UPGRADING = "UPGRADING"
+  UPGRADING = "UPGRADING",
+  BUILDING = "BUILDING"
 }
 
 export enum CREEP_ACTIONS {
   HARVEST = "harvest",
   TRANSFER = "transfer",
-  UPGRADE_CONTROLLER = "upgradeController"
+  UPGRADE_CONTROLLER = "upgradeController",
+  BUILD = "build"
 }
 
 export enum SPAWN_ACTIONS {

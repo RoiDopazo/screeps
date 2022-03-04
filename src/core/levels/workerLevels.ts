@@ -1,4 +1,4 @@
-import { QCreepBodyParts } from "../types/types";
+import { QCreepBodyParts } from "../../types/types";
 
 export const WorkerLevel_1: QCreepBodyParts = {
   work: 1,
